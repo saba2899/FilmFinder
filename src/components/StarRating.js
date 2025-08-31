@@ -1,8 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-// Removed inline styles - using Tailwind classes instead
-
 StarRating.propTypes = {
   maxRating: PropTypes.number.isRequired,
   defaultRating: PropTypes.number,
@@ -16,7 +14,7 @@ StarRating.propTypes = {
 export function StarRating({
   maxRating = 5,
   color = "#fcc419",
-  size = 48,
+  size = 24,
   className = "",
   messages = [],
   defaultRating = 0,
@@ -31,28 +29,63 @@ export function StarRating({
   }
 
   return (
-    <div className={`flex items-center gap-4 ${className}`}>
-      <div className="flex">
-        {Array.from({ length: maxRating }, (_, i) => (
-          <Star
-            key={i}
-            full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
-            onRate={() => handleRating(i + 1)}
-            onHoverIn={() => setTempRating(i + 1)}
-            onHoverOut={() => setTempRating(0)}
-            color={color}
-            size={size}
-          />
-        ))}
+    <div
+      className={`flex flex-col lg:flex-row items-center justify-center gap-2 lg:gap-4 ${className}`}
+    >
+      <div className="flex-col items-center hidden gap-3 lg:flex">
+        {!rating && (
+          <div className="text-lg font-semibold text-amber-100">
+            Rate this movie
+          </div>
+        )}
+        <div className="flex gap-1">
+          {Array.from({ length: maxRating }, (_, i) => (
+            <Star
+              key={i}
+              full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
+              onRate={() => handleRating(i + 1)}
+              onHoverIn={() => setTempRating(i + 1)}
+              onHoverOut={() => setTempRating(0)}
+              color={color}
+              size={size}
+            />
+          ))}
+        </div>
+        <div className="bg-gradient-to-r from-amber-500/20 to-yellow-500/20 border border-amber-500/30 px-3 py-1.5 rounded-lg">
+          <span
+            className="font-bold text-amber-100"
+            style={{ fontSize: `${Math.max(size / 1.5, 14)}px` }}
+          >
+            {tempRating || rating || 0}
+          </span>
+        </div>
       </div>
-      <p
-        className="leading-none m-0"
-        style={{ color, fontSize: `${size / 1.5}px` }}
-      >
-        {messages.length === maxRating
-          ? messages[tempRating ? tempRating - 1 : rating - 1]
-          : tempRating || rating || ""}
-      </p>
+
+      <div className="bg-gradient-to-br from-slate-700/50 to-slate-800/50 rounded-xl p-4 border border-slate-600/30 lg:hidden">
+        <div className="flex flex-col items-center gap-3">
+          <div className="flex gap-0.5">
+            {Array.from({ length: maxRating }, (_, i) => (
+              <Star
+                key={i}
+                full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
+                onRate={() => handleRating(i + 1)}
+                onHoverIn={() => setTempRating(i + 1)}
+                onHoverOut={() => setTempRating(0)}
+                color={color}
+                size={20}
+              />
+            ))}
+          </div>
+          <div className="bg-gradient-to-r from-amber-500/20 to-yellow-500/20 border border-amber-500/30 px-4 py-2 rounded-lg">
+            <span
+              className="font-bold text-amber-100"
+              style={{ fontSize: `${Math.max(20 / 1.5, 14)}px` }}
+            >
+              {tempRating || rating || 0}
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
