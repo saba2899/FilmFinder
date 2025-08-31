@@ -41,7 +41,7 @@ export default function App() {
   }
 
   return (
-    <div className="w-full max-w-full px-1 py-1 space-y-2 lg:max-w-[90%] lg:mx-auto lg:px-8 lg:py-6 lg:space-y-6">
+    <div className="w-full max-w-full px-1 py-1 space-y-2 lg:max-w-[100%] lg:mx-auto lg:px-8 lg:py-6 lg:space-y-6">
       <NavBar>
         <Logo />
         <Search query={query} setQuery={setQuery} />
@@ -52,8 +52,8 @@ export default function App() {
         <Box>
           {isLoading && <Loader />}
           {!isLoading && !error && (
-            <MovieList 
-              movies={movies} 
+            <MovieList
+              movies={movies}
               onSelectMovie={handleSelectMovie}
               watched={watched}
             />
